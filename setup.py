@@ -5,8 +5,7 @@ from setuptools import setup, find_packages
 
 def calculate_version():
     initpy = open('tpot/_version.py').read().split('\n')
-    version = list(filter(lambda x: '__version__' in x, initpy))[0].split('\'')[1]
-    return version
+    return list(filter(lambda x: '__version__' in x, initpy))[0].split('\'')[1]
 
 
 package_version = calculate_version()

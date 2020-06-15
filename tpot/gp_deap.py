@@ -50,8 +50,11 @@ def pick_two_individuals_eligible_for_crossover(population):
         Two individuals which are not the same, but share at least one primitive.
         Alternatively, if no such pair exists in the population, (None, None) is returned instead.
     """
-    primitives_by_ind = [set([node.name for node in ind if isinstance(node, gp.Primitive)])
-                         for ind in population]
+    primitives_by_ind = [
+        {node.name for node in ind if isinstance(node, gp.Primitive)}
+        for ind in population
+    ]
+
     pop_as_str = [str(ind) for ind in population]
 
     eligible_pairs = [(i, i+1+j) for i, ind1_prims in enumerate(primitives_by_ind)
@@ -296,7 +299,7 @@ def cxOnePoint(ind1, ind2):
             common_types.append(node.ret)
         types2[node.ret].append(idx)
 
-    if len(common_types) > 0:
+    if common_types:
         type_ = np.random.choice(common_types)
 
         index1 = np.random.choice(types1[type_])

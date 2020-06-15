@@ -40,15 +40,14 @@ def get_by_name(opname, operators):
     """
     ret_op_classes = [op for op in operators if op.__name__ == opname]
 
-    if len(ret_op_classes) == 0:
+    if not ret_op_classes:
         raise TypeError('Cannot found operator {} in operator dictionary'.format(opname))
     elif len(ret_op_classes) > 1:
         raise ValueError(
             'Found duplicate operators {} in operator dictionary. Please check '
             'your dictionary file.'.format(opname)
         )
-    ret_op_class = ret_op_classes[0]
-    return ret_op_class
+    return ret_op_classes[0]
 
 
 def export_pipeline(exported_pipeline,
@@ -316,8 +315,7 @@ def generate_pipeline_code(pipeline_tree, operators):
 
     """
     steps = _process_operator(pipeline_tree, operators)
-    pipeline_text = "make_pipeline(\n{STEPS}\n)".format(STEPS=_indent(",\n".join(steps), 4))
-    return pipeline_text
+    return "make_pipeline(\n{STEPS}\n)".format(STEPS=_indent(",\n".join(steps), 4))
 
 
 def generate_export_pipeline_code(pipeline_tree, operators):

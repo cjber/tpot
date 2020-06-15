@@ -49,17 +49,14 @@ except ModuleNotFoundError:
     raise
 
 def _pytorch_model_is_fully_initialized(clf: BaseEstimator):
-    if all([
+    return all([
         hasattr(clf, 'network'),
         hasattr(clf, 'loss_function'),
         hasattr(clf, 'optimizer'),
         hasattr(clf, 'data_loader'),
         hasattr(clf, 'train_dset_len'),
         hasattr(clf, 'device')
-    ]):
-        return True
-    else:
-        return False
+    ])
 
 def _get_cuda_device_if_available():
     if torch.cuda.is_available():
@@ -204,8 +201,7 @@ class _LR(nn.Module):
         self.linear = nn.Linear(input_size, num_classes)
 
     def forward(self, x):
-        out = self.linear(x)
-        return out
+        return self.linear(x)
 
 class _MLP(nn.Module):
     # pylint: disable=arguments-differ
@@ -221,8 +217,7 @@ class _MLP(nn.Module):
     def forward(self, x):
         hidden = self.fc1(x)
         r1 = self.relu(hidden)
-        out = self.fc2(r1)
-        return out
+        return self.fc2(r1)
 
 
 class PytorchLRClassifier(PytorchClassifier):

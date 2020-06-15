@@ -181,17 +181,17 @@ def test_init_custom_parameters():
     assert tpot_obj.max_time_mins is None
     assert tpot_obj.warm_start is True
     assert tpot_obj.verbosity == 1
-    assert tpot_obj.log_file == None
+    assert tpot_obj.log_file is None
 
     tpot_obj._fit_init()
 
     assert tpot_obj._pop == []
-    assert tpot_obj._pareto_front == None
-    assert tpot_obj._last_optimized_pareto_front == None
+    assert tpot_obj._pareto_front is None
+    assert tpot_obj._last_optimized_pareto_front is None
     assert tpot_obj._last_optimized_pareto_front_n_gens == 0
-    assert tpot_obj._optimized_pipeline == None
-    assert tpot_obj._optimized_pipeline_score == None
-    assert tpot_obj.fitted_pipeline_ == None
+    assert tpot_obj._optimized_pipeline is None
+    assert tpot_obj._optimized_pipeline_score is None
+    assert tpot_obj.fitted_pipeline_ is None
     assert tpot_obj._exported_pipeline_text == []
     assert tpot_obj.log_file == sys.stdout
 
@@ -772,7 +772,7 @@ def test_template_4():
     tpot_obj.fit(pretest_X, pretest_y)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
     sklearn_pipeline = tpot_obj.fitted_pipeline_
     operator_count = tpot_obj._operator_count(tpot_obj._optimized_pipeline)
@@ -993,7 +993,7 @@ def test_fit():
     tpot_obj.fit(pretest_X, pretest_y)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
 
 def test_fit_2():
@@ -1009,7 +1009,7 @@ def test_fit_2():
     tpot_obj.fit(training_features, training_target)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
 
 def test_fit_3():
@@ -1026,7 +1026,7 @@ def test_fit_3():
     tpot_obj.fit(training_features, training_target)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
 
 def test_fit_4():
@@ -1048,7 +1048,7 @@ def test_fit_4():
     tpot_obj.fit(training_features, training_target)
     assert tpot_obj._pop == []
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
 
 def test_fit_5():
@@ -1071,7 +1071,7 @@ def test_fit_5():
     tpot_obj.fit(training_features, training_target)
     assert tpot_obj._pop != []
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
     # rerun it
     tpot_obj.fit(training_features, training_target)
     assert tpot_obj._pop != []
@@ -1092,7 +1092,7 @@ def test_fit_6():
 
     assert isinstance(pd_features, pd.DataFrame)
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
 
 def test_fit_7():
@@ -1107,7 +1107,7 @@ def test_fit_7():
     tpot_obj.fit(pretest_X_reg, pretest_y_reg)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
 
 
 def test_memory():
@@ -1124,7 +1124,7 @@ def test_memory():
     tpot_obj.fit(training_features, training_target)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
     assert tpot_obj.memory is not None
     assert tpot_obj._memory is None
     assert tpot_obj._cachedir is not None
@@ -1379,7 +1379,7 @@ def test_fit_predict():
     result = tpot_obj.fit_predict(training_features, training_target)
 
     assert isinstance(tpot_obj._optimized_pipeline, creator.Individual)
-    assert not (tpot_obj._start_datetime is None)
+    assert tpot_obj._start_datetime is not None
     assert result.shape == (training_features.shape[0],)
 
 
@@ -1646,8 +1646,10 @@ def test_preprocess_individuals():
         'DecisionTreeClassifier__min_samples_split=5)'
     )
 
-    individuals = []
-    individuals.append(creator.Individual.from_string(pipeline_string_1, tpot_obj._pset))
+    individuals = [
+        creator.Individual.from_string(pipeline_string_1, tpot_obj._pset)
+    ]
+
     individuals.append(creator.Individual.from_string(pipeline_string_2, tpot_obj._pset))
 
     # set pipeline 2 has been evaluated before
@@ -1695,8 +1697,10 @@ def test_preprocess_individuals_2():
         'DecisionTreeClassifier__min_samples_split=5)'
     )
 
-    individuals = []
-    individuals.append(creator.Individual.from_string(pipeline_string_1, tpot_obj._pset))
+    individuals = [
+        creator.Individual.from_string(pipeline_string_1, tpot_obj._pset)
+    ]
+
     individuals.append(creator.Individual.from_string(pipeline_string_2, tpot_obj._pset))
 
     # reset verbosity = 3 for checking pbar message
